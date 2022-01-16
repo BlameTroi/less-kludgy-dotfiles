@@ -1,0 +1,5 @@
+#/!bin/bash
+# this is a test
+# from https://wiki.archlinux.org/index.php/Color_output_in_console#Terminal_emulators
+# output is rather long, can redirect or filter for specific terminal, eg terminator
+for T in `find /usr/share/terminfo -type f -printf '%f '`;do echo "$T `tput -T $T colors`";done|sort -nk2
