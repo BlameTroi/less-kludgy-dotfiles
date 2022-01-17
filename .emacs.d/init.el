@@ -19,13 +19,23 @@
 (add-hook 'focus-out-hook 'garbage-collect)
 (setq gc-cons-threshhold 1000000000)
 
+
+;; encoding, utf-8 everywhere
+(setq-default buffer-file-coding-system 'utf-8-unix)
+(set-terminal-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+
+
 ;; whitespace control
 (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
 (setq-default indicate-buffer-boundaries 'left)
 (setq sentence-end-double-space nil)
-(add-hook 'before-save-hook
-	  'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
@@ -54,7 +64,7 @@
 (ido-mode 1)
 (ido-everywhere)
 (setq ido-enable-flex-matching t)
-(fido-mode)
+;; testing (fido-mode)
 
 ;; keep auto saves and backups out of sight
 (make-directory "~/.tmp/emacs/auto-save/" t)
@@ -137,5 +147,14 @@
 ;; help with keys
 (require 'which-key)
 (which-key-mode)
+
+;; org mode
+(require 'org)
+(setq org-log-done t)
+(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
+
+;; sbcl & slime
+(load (expand-file-name "~/.quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
 
 ;; more to come
