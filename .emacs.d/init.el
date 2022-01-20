@@ -9,8 +9,9 @@
 ;;
 ;; http://github.com/susam/emacs4cl
 ;; http://github.com/susam/emfy
+;; http://tuhdo.github.io
 ;; http://emacswiki.org
-;; https://tess.oconnor.cx/config/.emacs
+;; http://tess.oconnor.cx/config/.emacs
 ;;
 ;; tess o'connor's config is particularly well
 ;; laid out and documented.
@@ -39,11 +40,12 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
+
 ;; clean, quite, minimal, usable
-(menu-bar-mode 0)
-(when (display-graphic-p)
-  (tool-bar-mode 0)
-  (scroll-bar-mode 0))
+;;(menu-bar-mode 0)
+;;(when (display-graphic-p)
+;;  (tool-bar-mode 0)
+;;  (scroll-bar-mode 0))
 (column-number-mode)
 (setq inhibit-startup-screen t)
 (setq-default
@@ -52,36 +54,56 @@
 (setq read-filename-completion-ignore-case t)
 (setq read-buffer-name-completion-ignore-case t)
 (xterm-mouse-mode)
+(fset 'yes-or-no-p 'y-or-n-p)         ; less typing
 
 ;; theme
+;; currently using an old color theme until i figure
+;; out which custom theme i want and how to set it
+;; up.
+;;
+;; themes i find readable after some experimentation:
+;;
+;; alect-black, alect-black-alt, distinquished, grandshell,
+;; green-is-the-new-black, green-phosphor, green-screen,
+;; gruber-darker, hemisu-dark, ir-black, seti,
+;; base16-greenscreen, base16-irblack, base16-isotope,
+;; base16-seti, srcery, tron-legacy, deeper-blue,
+;; manoj-dark, wheatgrass
 (load-theme 'wheatgrass)
+
 
 ;; global default fonts
 (add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono-16"))
 (set-frame-font "Hack Nerd Font Mono-16" nil t)
 
+
 ;; interactively do things
 (ido-mode 1)
 (ido-everywhere)
 (setq ido-enable-flex-matching t)
-;; testing (fido-mode)
+(fido-mode)
+
 
 ;; keep auto saves and backups out of sight
 (make-directory "~/.tmp/emacs/auto-save/" t)
 (setq auto-save-file-name-transforms '((".*" "~/.tmp/emacs/auto-save/" t)))
 (setq backup-directory-alist '(("." . "~/.tmp/emacs/backup/")))
 
+
 ;; do not move current file while creating backup
 (setq backup-by-copying t)
+
 
 ;; paren matching when lisping
 (setq show-paren-delay 0)
 (show-paren-mode)
 
+
 ;; customizations in a separate file
 ;; *** this must come before any package-install ***
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
+
 
 ;; package management & melpa
 (require 'package)
@@ -91,11 +113,12 @@
   (package-refresh-contents))
 (package-initialize)
 
+
 ;; make sure path is updated with shell path
 ;; when launched from a gui shell it isn't.
 ;;
 ;; TODO: dedup path
-(defun troi-set-exec-path-from-shell-PATH ()
+(defun troi/set-exec-path-from-shell-PATH ()
   (interactive)
   (let ((path-from-shell (replace-regexp-in-string
                           "[ \t\n]*$" "" (shell-command-to-string
@@ -103,17 +126,22 @@
                                           ))))
        (setenv "PATH" path-from-shell)
        (setq exec-path (split-string path-from-shell path-separator))))
-(troi-set-exec-path-from-shell-PATH)
+(troi/set-exec-path-from-shell-PATH)
+
 
 ;; install lisp development and other packages
 ;; here if they are not already installed
 (dolist (package
-         '(slime rainbow-delimiters which-key))
+         '(
+           slime rainbow-delimiters which-key
+           forth-mode))
   (unless (package-installed-p package)
     (package-install package)))
 
+
 ;; inferior lisp when sliming
 (setq inferior-lisp-program "sbcl")
+
 
 ;; hooks for lisp with paredit and rainbow, there are
 ;; many and the line by line explanation at susam/emacs4cl
@@ -132,6 +160,7 @@
 (add-hook 'slime-repl-mode-hook
           'rainbow-delimiters-mode)
 
+
 ;; and color them
 (require 'rainbow-delimiters)
 (set-face-foreground 'rainbow-delimiters-depth-1-face "#c66")  ; red
@@ -144,17 +173,35 @@
 (set-face-foreground 'rainbow-delimiters-depth-8-face "#999")  ; medium gray
 (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
 
+
 ;; help with keys
 (require 'which-key)
 (which-key-mode)
+
 
 ;; org mode
 (require 'org)
 (setq org-log-done t)
 (setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 
+
 ;; sbcl & slime
 (load (expand-file-name "~/.quicklisp/slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
+
+
+;; fortran
+(autoload 'f90-mode "f90" "Fortran 90 mode" t)
+(add-hook 'f90-mode-hook 'troi/f90-mode-hook)
+(defun troi/f90-mode-hook ()
+  (setq f90-font-lock-keywords f90-font-lock-keywords-3)
+  (abbrev-mode 1)                       ; turn on abbreviation mode
+  (turn-on-font-lock)                   ; syntax highlighting
+  (auto-fill-mode 0))                   ; turn off auto-filling
+
+
+;; key binds that don't belong anywhere else
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 
 ;; more to come

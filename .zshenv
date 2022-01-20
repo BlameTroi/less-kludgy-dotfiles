@@ -12,9 +12,8 @@ export ZSH_CUSTOM="/home/troi/.zshcustom"
 #
 export MANPATH="/usr/local/man:$MANPATH"
 #
-# add brew ...
 # PATH="$PATH"
-export PATH="/home/troi/bin:/home/troi/.local/bin:/home/troi/go/bin:/home/linuxbrew/.linuxbrew/sbin:/home/linuxbrew/.linuxbrew/bin:$PATH"
+export PATH="/home/troi/bin:/home/troi/.local/bin:/home/troi/go/bin:$PATH"
 #
 # Umask
 #
@@ -25,4 +24,5 @@ export PATH="/home/troi/bin:/home/troi/.local/bin:/home/troi/go/bin:/home/linuxb
 # umask 077
 umask 033
 #
-export EDITOR="nvim"
+export VISUAL="emacs"
+export EDITOR=$VISUAL
