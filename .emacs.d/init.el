@@ -21,6 +21,11 @@
 (setq gc-cons-threshhold 1000000000)
 
 
+;; my code, overrides, and such
+(add-to-list 'load-path "~/.emacs.d/troi")
+(require 'troi-modal)
+
+
 ;; encoding, utf-8 everywhere
 (setq-default buffer-file-coding-system 'utf-8-unix)
 (set-terminal-coding-system 'utf-8)
@@ -133,8 +138,9 @@
 ;; here if they are not already installed
 (dolist (package
          '(
-           slime rainbow-delimiters which-key
-           forth-mode))
+           slime clhs rainbow-delimiters
+           which-key
+           go-mode forth-mode))
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -185,7 +191,7 @@
 (setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 
 
-;; sbcl & slime
+;; cl, sbcl, and slime
 (load (expand-file-name "~/.quicklisp/slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
 

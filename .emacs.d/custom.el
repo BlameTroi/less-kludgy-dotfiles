@@ -42,7 +42,7 @@ static char *gnus-pointer[] = {
  '(jdee-db-spec-breakpoint-face-colors (cons "#282a36" "#848688"))
  '(objed-cursor-color "#ff5c57")
  '(package-selected-packages
-   '(alect-themes display-theme distinguished-theme fzf grandshell-theme green-is-the-new-black-theme green-phosphor-theme green-screen-theme gruber-darker-theme ir-black-theme magit orthodox-christian-new-calendar-holidays select-themes seti-theme srcery-theme theme-magic tron-legacy-theme forth-mode which-key rainbow-delimiters paredit slime))
+   '(go-mode clhs alect-themes display-theme distinguished-theme fzf grandshell-theme green-is-the-new-black-theme green-phosphor-theme green-screen-theme gruber-darker-theme ir-black-theme magit orthodox-christian-new-calendar-holidays select-themes seti-theme srcery-theme theme-magic tron-legacy-theme forth-mode which-key rainbow-delimiters paredit slime))
  '(pdf-view-midnight-colors (cons "#f9f9f9" "#282a36"))
  '(rustic-ansi-faces
    ["#282a36" "#ff5c57" "#5af78e" "#f3f99d" "#57c7ff" "#ff6ac1" "#9aedfe" "#f9f9f9"])
