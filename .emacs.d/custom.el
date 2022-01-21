@@ -5,8 +5,10 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#282a36" "#ff5c57" "#5af78e" "#f3f99d" "#57c7ff" "#ff6ac1" "#9aedfe" "#f9f9f9"])
+ '(column-number-mode t)
+ '(custom-enabled-themes '(alect-black))
  '(custom-safe-themes
-   '("cf9414f229f6df728eb2a5a9420d760673cca404fee9910551caf9c91cff3bfa" "c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" "3d2e532b010eeb2f5e09c79f0b3a277bfc268ca91a59cdda7ffd056b868a03bc" "45e76a1b1e3bd74adb03192bf8d6eea2e469a1cf6f60088b99d57f1374d77a04" "9549755e996a2398585714b0af745d2be5387ecf7ec299ff355ec6bef495be88" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" default))
+   '("28eb6d962d45df4b2cf8d861a4b5610e5dece44972e61d0604c44c4aad1e8a9d" "cf9414f229f6df728eb2a5a9420d760673cca404fee9910551caf9c91cff3bfa" "c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" "3d2e532b010eeb2f5e09c79f0b3a277bfc268ca91a59cdda7ffd056b868a03bc" "45e76a1b1e3bd74adb03192bf8d6eea2e469a1cf6f60088b99d57f1374d77a04" "9549755e996a2398585714b0af745d2be5387ecf7ec299ff355ec6bef495be88" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "7356632cebc6a11a87bc5fcffaa49bae528026a78637acd03cae57c091afd9b9" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" default))
  '(diary-entry-marker 'font-lock-variable-name-face)
  '(doom-modeline-mode t)
  '(emms-mode-line-icon-color "#1fb3b3")
@@ -46,6 +48,7 @@ static char *gnus-pointer[] = {
  '(pdf-view-midnight-colors (cons "#f9f9f9" "#282a36"))
  '(rustic-ansi-faces
    ["#282a36" "#ff5c57" "#5af78e" "#f3f99d" "#57c7ff" "#ff6ac1" "#9aedfe" "#f9f9f9"])
+ '(show-paren-mode t)
  '(vc-annotate-background "#282a36")
  '(vc-annotate-color-map
    (list

@@ -74,7 +74,7 @@
 ;; base16-greenscreen, base16-irblack, base16-isotope,
 ;; base16-seti, srcery, tron-legacy, deeper-blue,
 ;; manoj-dark, wheatgrass
-(load-theme 'wheatgrass)
+;; (load-theme 'wheatgrass)
 
 
 ;; global default fonts
