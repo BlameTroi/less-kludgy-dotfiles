@@ -4,6 +4,10 @@
 # aren't needed for an interactive shell, which belong in
 # .zshrc.
 #
+export XDG_DATA_HOME="/home/troi/.local/share"
+export XDG_CONFIG_HOME="/home/troi/.config"
+export XDG_STATE_HOME="/home/troi/.local/state"
+#
 # Path to your oh-my-zsh installation.
 export ZSH="/home/troi/.oh-my-zsh"
 #
