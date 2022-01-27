@@ -32,17 +32,17 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(go
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
      ;; better-defaults
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     ;; github
 
      ;; general ui and basics
      ibuffer
@@ -53,26 +53,33 @@ This function should only modify configuration layer settings."
      treemacs
      csv
 
-     ;; for all languages
-     github
-     lsp
+     ;; programming language support
+     auto-completion
+     ;; lsp
 
      emacs-lisp
-     scheme
-     sml
-     c-c++
-     (go :variables go-tab-width 4)
-     (shell :variables
-            shell-default-height 25
-            shell-default-term-shell "/bin/zsh"
-            shell-default-position 'right)
-     fortran ;; from https://github.com/ciappi/fortran-layer, in .emacs.d/private
+
      (python :variables
-	           python-backend 'anaconda
-             python-test-runner 'pytest
+             python-shell-interpreter "/home/troi/pyenvironments/base/bin/python"
+             python-lsp-backend 'lsp
+             python-lsp-server 'pyright
+             python-fill-column 99
+             python-formatter 'black
              python-format-on-save t
-             python-sort-imports-on-save t)
-     )
+             python-test-runner 'pytest
+             python-sort-imports-on-save t
+             python-pipenv-activate t)
+
+     ;; scheme
+     ;; sml
+     ;; c-c++
+     ;; (go :variables go-tab-width 4)
+     ;; (shell :variables
+     ;;        shell-default-height 25
+     ;;        shell-default-term-shell "/bin/zsh"
+     ;;        shell-default-position 'right)
+     ;; fortran ;; from https://github.com/ciappi/fortran-layer, in .emacs.d/private
+    )
 
 
 
@@ -463,7 +470,7 @@ It should only modify the values of Spacemacs settings."
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
+   dotspacemacs-search-tools '("ag" "rg" "pt" "ack" "grep")
 
    ;; Format specification for setting the frame title.
    ;; %a - the `abbreviated-file-name', or `buffer-name'
@@ -499,7 +506,7 @@ It should only modify the values of Spacemacs settings."
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'trailing
 
    ;; If non-nil activate `clean-aindent-mode' which tries to correct
    ;; virtual indentation of simple modes. This can interfere with mode specific
@@ -587,11 +594,57 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(diary-entry-marker 'font-lock-variable-name-face)
+ '(emms-mode-line-icon-color "#1ba1a1")
  '(evil-want-Y-yank-to-eol nil)
- '(package-hidden-regexps '("(?!pyt)" "Pyt" "pyt" "!pyt" "^((?!pyt).)*$"))
+ '(fci-rule-color "#404040")
+ '(gnus-logo-colors '("#4c8383" "#bababa"))
+ '(gnus-mode-line-image-cache
+   '(image :type xpm :ascent center :data "/* XPM */
+static char *gnus-pointer[] = {
+/* width height num_colors chars_per_pixel */
+\"    18    13        2            1\",
+/* colors */
+\". c #1ba1a1\",
+\"# c None s None\",
+/* pixels */
+\"##################\",
+\"######..##..######\",
+\"#####........#####\",
+\"#.##.##..##...####\",
+\"#...####.###...##.\",
+\"#..###.######.....\",
+\"#####.########...#\",
+\"###########.######\",
+\"####.###.#..######\",
+\"######..###.######\",
+\"###....####.######\",
+\"###..######.######\",
+\"###########.######\" };"))
  '(package-selected-packages
-   '(modern-fringes py-yapf pyenv-mode-auto yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode bui cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic birds-of-paradise-plus-theme borland-blue-theme c-eldoc calmer-forest-theme celestial-mode-line cheat-sh cheatsheet chyla-theme clhs cobol-mode dropbox elpl github-clone go-add-tags go-direx go-dlv go-fill-struct go-gen-test go-snippets go-stacktracer gotest green-is-the-new-black-theme green-phosphor-theme green-screen-theme gsettings howdoi howdoyou insert-shebang ir-black-theme jetbrains-darcula-theme liso-theme magit-todos masm-mode mbo70s-theme modus-themes mpages nasm-mode naysayer-theme northcode-theme nubox nyx-theme obsidian-theme omtose-phellack-theme one-themes phoenix-dark-pink-theme quasi-monochrome-theme reverse-theme reykjavik-theme rimero-theme sculpture-themes seti-theme sexy-monochrome-theme sketch-mode sketch-themes sml-basis sml-mode sml-modeline snazzy-theme soothe-theme sorcery-theme sourcerer-theme spacemacs-theme stimmung-themes the-matrix-theme theme-magic tldr toxi-theme zen-and-art-theme geiser-mit vmd-mode valign mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company ws-butler writeroom-mode winum which-key volatile-highlights uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
- '(paradox-automatically-star t))
+   '(exec-path-from-shell godoctor go-tag go-rename go-impl go-guru go-eldoc flycheck-golangci-lint company-go go-mode transient deferred lsp-treemacs lsp-mode modern-fringes py-yapf pyenv-mode-auto yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode bui cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic c-eldoc celestial-mode-line cheat-sh cheatsheet clhs cobol-mode dropbox elpl github-clone go-add-tags go-direx go-dlv go-fill-struct go-gen-test go-snippets go-stacktracer gotest gsettings howdoi howdoyou insert-shebang magit-todos masm-mode mpages nasm-mode nubox sketch-mode sml-basis sml-mode sml-modeline spacemacs-theme theme-magic tldr geiser-mit vmd-mode valign mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company ws-butler writeroom-mode winum which-key volatile-highlights uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+ '(paradox-automatically-star t)
+ '(vc-annotate-background "#404040")
+ '(vc-annotate-color-map
+   '((20 . "#ea4141")
+     (40 . "#db4334")
+     (60 . "#e9e953")
+     (80 . "#c9d617")
+     (100 . "#dc7700")
+     (120 . "#bcaa00")
+     (140 . "#29b029")
+     (160 . "#47cd57")
+     (180 . "#60a060")
+     (200 . "#319448")
+     (220 . "#078607")
+     (240 . "#1ec1c4")
+     (260 . "#1ba1a1")
+     (280 . "#26d5d5")
+     (300 . "#58b1f3")
+     (320 . "#00a2f5")
+     (340 . "#1e7bda")
+     (360 . "#da26ce")))
+ '(vc-annotate-very-old-color "#da26ce"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
