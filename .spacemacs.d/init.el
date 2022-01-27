@@ -32,7 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(go
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -59,6 +59,8 @@ This function should only modify configuration layer settings."
 
      emacs-lisp
 
+     (go :variables go-tab-width 4)
+
      (python :variables
              python-shell-interpreter "/home/troi/pyenvironments/base/bin/python"
              python-lsp-backend 'lsp
@@ -73,7 +75,6 @@ This function should only modify configuration layer settings."
      ;; scheme
      ;; sml
      ;; c-c++
-     ;; (go :variables go-tab-width 4)
      ;; (shell :variables
      ;;        shell-default-height 25
      ;;        shell-default-term-shell "/bin/zsh"
@@ -573,12 +574,26 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; the intent is to avoid line wrap, but something isn't quite right
   (spacemacs/toggle-truncate-lines-on)
+
   ;; Visual line navigation for textual modes
   (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
-;;  (global-git-commit-mode t)
+
   ;; paradox token, this probably needs to move somewhere else
-  (setq paradox-github-token "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")
+  ;; read only access, knock yourself out
+  ;; The "paradox-token" file is supposed to contain this line:
+  ;;     (setq paradox-github-token "<YOUR_TOKEN>")
+  (load (locate-user-emacs-file "private/paradox-token")) ; :noerror :nomessage)
+
+  ;; zsh is my preference
+  (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+  (add-hook 'sh-mode-hook
+            (lambda ()
+              (if (string-match "\\.zsh$" buffer-file-name)
+                  (sh-set-shell "zsh"))))
+
   )
 
 
