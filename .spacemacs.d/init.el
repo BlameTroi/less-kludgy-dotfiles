@@ -49,28 +49,27 @@ This function should only modify configuration layer settings."
      helm
      multiple-cursors
      markdown
-     org
      treemacs
      csv
 
+     ;; org
+     (org :variables
+          org-enable-org-journal-support t
+          org-enable-epub-support t
+          )
      ;; programming language support
      auto-completion
+
      ;; lsp
 
      emacs-lisp
 
      (go :variables go-tab-width 4)
 
-     (python :variables
-             python-shell-interpreter "/home/troi/pyenvironments/base/bin/python"
-             python-lsp-backend 'lsp
-             python-lsp-server 'pyright
-             python-fill-column 99
-             python-formatter 'black
-             python-format-on-save t
-             python-test-runner 'pytest
-             python-sort-imports-on-save t
-             python-pipenv-activate t)
+     (python :variables python-pipenv-activate t)
+
+     ;; the fortran layer is not worth using at this time
+     ;; (fortran :variables fortran-indent 4)
 
      ;; scheme
      ;; sml
@@ -428,7 +427,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers nil
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
@@ -581,8 +580,6 @@ before packages are loaded."
   ;; Visual line navigation for textual modes
   (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
 
-  ;; paradox token, this probably needs to move somewhere else
-  ;; read only access, knock yourself out
   ;; The "paradox-token" file is supposed to contain this line:
   ;;     (setq paradox-github-token "<YOUR_TOKEN>")
   (load (locate-user-emacs-file "private/paradox-token")) ; :noerror :nomessage)
@@ -593,6 +590,52 @@ before packages are loaded."
             (lambda ()
               (if (string-match "\\.zsh$" buffer-file-name)
                   (sh-set-shell "zsh"))))
+
+  ;; tweak fortran and f90 modes, there's no useful spacemacs fortran layer
+  ;; yet. modified from a gist by aradi.
+
+  ;; Fortran settings
+  (setq fortran-continuation-string "&")
+  (setq fortran-do-indent 4)
+  (setq fortran-if-indent 4)
+  (setq fortran-structure-indent 4)
+
+  ;; Fortran 90 settings
+  (setq f90-do-indent 4)
+  (setq f90-if-indent 4)
+  (setq f90-type-indent 4)
+  (setq f90-program-indent 4)
+  (setq f90-continuation-indent 6)
+  (setq f90-smart-end 'blink)
+
+  ;; Set Fortran and Fortran 90 mode for appropriate extensions
+  ;; (setq auto-mode-alist
+  ;;       (cons '("\\.F90$" . f90-mode) auto-mode-alist))
+  ;; (setq auto-mode-alist
+  ;;       (cons '("\\.pf$" . f90-mode) auto-mode-alist))
+  ;; (setq auto-mode-alist
+  ;;       (cons '("\\.fpp$" . f90-mode) auto-mode-alist))
+  ;; (setq auto-mode-alist
+  ;;       (cons '("\\.F$" . fortran-mode) auto-mode-alist))
+
+  ;; Swap Return and C-j in Fortran 90 mode
+  ;; not sure i'll like this, but we'll see
+  (add-hook 'f90-mode-hook
+	          '(lambda ()
+	             (define-key f90-mode-map [return] 'f90-indent-new-line)
+	             (define-key f90-mode-map "\C-j" 'newline)
+	             (setq fill-column 100)
+               (abbrev-mode)
+               (setq-default indent-tabs-mode nil)
+               (setq whitespace-line-column 100)
+               (setq whitespace-style '(face tabs lines-tail empty))
+               (whitespace-mode)
+               (add-to-list 'write-file-functions 'delete-trailing-whitespace)
+	             )
+	          )
+
+  ;; Read in handy abbreviations for Fortran
+  (quietly-read-abbrev-file "~/.spacemacs.d/abbrevs_fortran.el")
 
   )
 
@@ -637,7 +680,7 @@ static char *gnus-pointer[] = {
 \"###..######.######\",
 \"###########.######\" };"))
  '(package-selected-packages
-   '(exec-path-from-shell godoctor go-tag go-rename go-impl go-guru go-eldoc flycheck-golangci-lint company-go go-mode transient deferred lsp-treemacs lsp-mode modern-fringes py-yapf pyenv-mode-auto yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent helm-pydoc helm-gtags helm-cscope xcscope ggtags dap-mode bui cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic c-eldoc celestial-mode-line cheat-sh cheatsheet clhs cobol-mode dropbox elpl github-clone go-add-tags go-direx go-dlv go-fill-struct go-gen-test go-snippets go-stacktracer gotest gsettings howdoi howdoyou insert-shebang magit-todos masm-mode mpages nasm-mode nubox sketch-mode sml-basis sml-mode sml-modeline spacemacs-theme theme-magic tldr geiser-mit vmd-mode valign mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company ws-butler writeroom-mode winum which-key volatile-highlights uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+   '(godoctor go-tag go-rename go-impl go-guru go-eldoc company-go go-mode transient deferred yapfify pytest pyenv-mode pydoc py-isort poetry pippel pipenv pyvenv pip-requirements nose live-py-mode importmagic epc ctable concurrent helm-pydoc cython-mode company-anaconda blacken anaconda-mode pythonic go-fill-struct go-gen-test spacemacs-theme mmm-mode markdown-toc markdown-mode gh-md company ws-butler writeroom-mode winum which-key volatile-highlights uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(paradox-automatically-star t)
  '(vc-annotate-background "#404040")
  '(vc-annotate-color-map
