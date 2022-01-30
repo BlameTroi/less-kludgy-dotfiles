@@ -132,6 +132,8 @@
 
         org
 
+        paradox
+
         paredit
         paredit-everywhere
         paredit-menu
@@ -149,10 +151,19 @@
       (package-refresh-contents))
     (package-install package)))
 
+;; if i ever use paradox again, this is the pattern for storing a
+;; token or other 'secret' data. the private directory should not
+;; be under source control.
+;;
+;; The "paradox-token" file is supposed to contain this line:
+;;     (setq paradox-github-token "<YOUR_TOKEN>")
+;; (load (locate-user-emacs-file "private/paradox-token")) ; :noerror :nomessage)
+
 
 ;; basic evil mode. modal editing is the way.
 (require 'evil)
 (evil-mode 1)
+(setq evil-undo-system 'undo-fo)
 (require 'evil-leader)
 (global-evil-leader-mode)
 (evil-leader/set-leader "SPC")
@@ -255,7 +266,7 @@
 (set-face-foreground 'rainbow-delimiters-depth-7-face "#ccc")  ; light gray
 (set-face-foreground 'rainbow-delimiters-depth-8-face "#999")  ; medium gray
 (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
-(setq show-paren-delay 0)
+(setq-default show-paren-delay 0)
 (show-paren-mode)
 
 
@@ -271,6 +282,56 @@
 ;; snippets
 (require 'yasnippet)
 (yas-global-mode 1)
+
+;; zsh is my preference
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+
+
+;; tweak fortran and f90 modes, there's no useful spacemacs fortran layer
+;; yet. modified from a gist by aradi.
+
+;; Fortran settings
+(setq-default fortran-continuation-string "&")
+(setq-default fortran-do-indent 4)
+(setq-default fortran-if-indent 4)
+(setq-default fortran-structure-indent 4)
+
+;; Fortran 90 settings
+(setq-default f90-do-indent 4)
+(setq-default f90-if-indent 4)
+(setq-default f90-type-indent 4)
+(setq-default f90-program-indent 4)
+(setq-default f90-continuation-indent 6)
+(setq-default f90-smart-end 'blink)
+
+;; Set Fortran and Fortran 90 mode for appropriate extensions
+;; (setq auto-mode-alist
+;;       (cons '("\\.F90$" . f90-mode) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (cons '("\\.pf$" . f90-mode) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (cons '("\\.fpp$" . f90-mode) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (cons '("\\.F$" . fortran-mode) auto-mode-alist))
+
+;; Swap Return and C-j in Fortran 90 mode
+;; not sure i'll like this, but we'll see
+(add-hook 'f90-mode-hook
+          '(lambda ()
+             (define-key f90-mode-map [return] 'f90-indent-new-line)
+             (define-key f90-mode-map "\C-j" 'newline)
+             (setq fill-column 100)
+             (abbrev-mode)
+             (setq-default indent-tabs-mode nil)
+             (setq whitespace-line-column 100)
+             (setq whitespace-style '(face tabs lines-tail empty))
+             (whitespace-mode)
+             (add-to-list 'write-file-functions 'delete-trailing-whitespace)
+             )
+          )
+
+;; Read in handy abbreviations for Fortran
+(quietly-read-abbrev-file (locate-user-emacs-file "troi/abbrevs-fortran.el"))
 
 
 ;; for whenever i start using emacsclient
@@ -290,9 +351,6 @@
 (when (file-exists-p custom-file)
 
   (load custom-file))
-
-
-;; this is time sensitive during init
 
 
 (provide 'init)
